@@ -1,4 +1,3 @@
-import 'package:adphotos/data/providers/ad_provider.dart';
 import 'package:adphotos/layout/home/home_screen.dart';
 import 'package:adphotos/modules/auth/login_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:adphotos/data/repositories/ad_repository.dart';
-import 'package:adphotos/data/providers/auth_provider.dart';
 import 'package:adphotos/data/repositories/user_repository.dart';
 import 'package:adphotos/data/services/auth_service.dart';
 import 'package:adphotos/data/services/ad_service.dart';
@@ -32,12 +30,10 @@ void main() async {
 
   // Create instances of repositories and services
   final adRepository = AdRepository();
-  final adProvider = AdProvider(adRepository);
-  final adService = AdService(adProvider);
+  final adService = AdService(adRepository);
 
-  final authProvider = AuthProvider();
-  final userRepository = UserRepository();
-  final authService = AuthService(authProvider, userRepository);
+  final authRepository = AuthRepository();
+  final authService = AuthService(authRepository);
 
   Widget startWidget;
 
