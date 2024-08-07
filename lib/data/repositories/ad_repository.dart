@@ -20,7 +20,7 @@ class AdRepository {
       await _firestore.collection("ads").doc(adId).update(model.toMap());
       return true;
     } catch (e) {
-      // Handle error
+      // Handle error, e.g., log it
       return false;
     }
   }
@@ -33,7 +33,7 @@ class AdRepository {
         await adDoc.delete();
       }
     } catch (e) {
-      // Handle error
+      // Handle error, e.g., log it
     }
   }
 }

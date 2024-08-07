@@ -1,18 +1,21 @@
+import 'package:adphotos/data/providers/ad_provider.dart';
 import 'package:adphotos/layout/home/home_screen.dart';
 import 'package:adphotos/modules/auth/login_screen.dart';
-import 'package:adphotos/shared/bloc/auth/authbloc.dart';
-import 'package:adphotos/shared/network/local/remot/cachehelper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'shared/bloc/app/appbloc.dart';
-import 'shared/constants/bloc_observer.dart';
-import 'shared/constants/constants.dart';
 import 'package:adphotos/data/repositories/ad_repository.dart';
 import 'package:adphotos/data/providers/auth_provider.dart';
 import 'package:adphotos/data/repositories/user_repository.dart';
 import 'package:adphotos/data/services/auth_service.dart';
+import 'package:adphotos/data/services/ad_service.dart';
+import 'package:adphotos/shared/constants/bloc_observer.dart';
+import 'package:adphotos/shared/constants/constants.dart';
+
+import 'shared/bloc/app/appbloc.dart';
+import 'shared/bloc/auth/authbloc.dart';
+import 'shared/network/local/remot/cachehelper.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -20,53 +23,58 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await CacheHelper.init();
   await firebaseMessagingBackgroundHandler;
+
   Bloc.observer = MyBlocObserver();
   uId = CacheHelper.getData(key: 'uId');
-  await Firebase.initializeApp();
 
   // Create instances of repositories and services
   final adRepository = AdRepository();
+  final adProvider = AdProvider(adRepository);
+  final adService = AdService(adProvider);
+
   final authProvider = AuthProvider();
   final userRepository = UserRepository();
   final authService = AuthService(authProvider, userRepository);
 
-  Widget widget;
+  Widget startWidget;
+
   if (uId != null) {
-    widget = HomeScreen();
+    startWidget = HomeScreen();
   } else {
-    widget = LoginScreen();
+    startWidget = LoginScreen();
   }
 
   runApp(MyApp(
-    startWidget: widget,
-    adRepository: adRepository,
+    startWidget: startWidget,
+    adService: adService,
     authService: authService,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final Widget startWidget;
-  final AdRepository adRepository;
+  final AdService adService;
   final AuthService authService;
 
   const MyApp({
-    super.key,
+    Key? key,
     required this.startWidget,
-    required this.adRepository,
+    required this.adService,
     required this.authService,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => AppBloc(adRepository),
+          create: (context) => AppBloc(adService),
         ),
         BlocProvider(
-          create: (BuildContext context) => AuthBloc(authService)..getUserData(),
+          create: (context) => AuthBloc(authService)..getUserData(),
         ),
       ],
       child: MaterialApp(
