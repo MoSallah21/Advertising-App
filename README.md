@@ -1,6 +1,6 @@
 # adphotos
 
-A Advertisements App for jobs,hotels and companies......
+An Advertisements App for jobs,hotels and companies......
 
 
 ## Getting Started
