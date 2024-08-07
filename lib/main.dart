@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:adphotos/data/repositories/ad_repository.dart';
-import 'package:adphotos/data/repositories/user_repository.dart';
+import 'package:adphotos/data/repositories/auth_repository.dart';
 import 'package:adphotos/data/services/auth_service.dart';
 import 'package:adphotos/data/services/ad_service.dart';
 import 'package:adphotos/shared/constants/bloc_observer.dart';

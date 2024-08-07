@@ -1,4 +1,4 @@
-import 'package:adphotos/data/repositories/user_repository.dart';
+import 'package:adphotos/data/repositories/auth_repository.dart';
 import 'package:adphotos/models/user/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
