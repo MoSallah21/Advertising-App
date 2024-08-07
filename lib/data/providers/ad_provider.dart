@@ -10,7 +10,7 @@ class AdProvider {
     return _repository.getAds(catName);
   }
 
-  Future<bool> updateLike(AdModel model, String adId) {
+  Future<void> updateLike(AdModel model, String adId) {
     return _repository.updateLike(model, adId);
   }
 
