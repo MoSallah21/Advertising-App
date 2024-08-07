@@ -1,32 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:adphotos/data/repositories/ad_repository.dart';
 import 'package:adphotos/models/ad/ad.dart';
 
 class AdProvider {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final AdRepository _repository;
 
-  // Get ads by category name
+  AdProvider(this._repository);
+
   Stream<List<AdModel>> getAds(String catName) {
-    return _firestore
-        .collection('ads')
-        .where('catName', isEqualTo: catName)
-        .orderBy('startDate', descending: true)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((doc) => AdModel.fromJson(doc.data())).toList();
-    });
+    return _repository.getAds(catName);
   }
 
-  // Update like count for an ad
-  Future<void> updateLike(AdModel model, String adId) async {
-    await _firestore.collection("ads").doc(adId).update(model.toMap());
+  Future<bool> updateLike(AdModel model, String adId) {
+    return _repository.updateLike(model, adId);
   }
 
-  // Delete an ad
-  Future<void> deleteAd(String adId, String endDate) async {
-    final adsRef = _firestore.collection('ads');
-    final adDoc = adsRef.doc(adId);
-    if (DateTime.now().isAfter(DateTime.parse(endDate))) {
-      await adDoc.delete();
-    }
+  Future<void> deleteAd(String adId, String endDate) {
+    return _repository.deleteAd(adId, endDate);
   }
 }

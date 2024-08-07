@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:adphotos/models/ad/ad.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -20,15 +20,20 @@ class AdRepository {
       await _firestore.collection("ads").doc(adId).update(model.toMap());
       return true;
     } catch (e) {
+      // Handle error, e.g., log it
       return false;
     }
   }
 
   Future<void> deleteAd(String adId, String endDate) async {
-    final adsRef = _firestore.collection('ads');
-    final adDoc = adsRef.doc(adId);
-    if (DateTime.now().isAfter(DateTime.parse(endDate))) {
-      await adDoc.delete();
+    try {
+      final adsRef = _firestore.collection('ads');
+      final adDoc = adsRef.doc(adId);
+      if (DateTime.now().isAfter(DateTime.parse(endDate))) {
+        await adDoc.delete();
+      }
+    } catch (e) {
+      // Handle error, e.g., log it
     }
   }
 }
