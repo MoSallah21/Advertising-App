@@ -1,0 +1,6 @@
+package com.one.adphotos
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
