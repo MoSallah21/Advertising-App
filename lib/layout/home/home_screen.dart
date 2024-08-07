@@ -119,7 +119,12 @@ class HomeScreen extends StatelessWidget {
                                   color: Colors.white, fontSize: 20),
                             ),
                             onPressed: () async {
-                              await cubit.signOut(context: context);
+                              await CacheHelper.removeData(key: 'uId');
+                              await FirebaseAuth.instance.signOut();
+                              uId = null;
+                              navigateAndFinish(context, LoginScreen());
+
+
 
                             },
                             width: 120,
