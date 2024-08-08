@@ -12,7 +12,6 @@ import 'package:pull_down_button/pull_down_button.dart';
 
 class AdsScreen extends StatelessWidget {
   int index;
-  int selectedIndex=0;
   String catName;
   AdsScreen({required this.index,required this.catName});
 
@@ -25,7 +24,6 @@ class AdsScreen extends StatelessWidget {
       },
       builder: (context, state)  {
         var cubit =AppBloc.get(context);
-
         return Scaffold(
           backgroundColor: HexColor('#5A5A5A'), // s
           appBar: AppBar(
@@ -41,9 +39,9 @@ class AdsScreen extends StatelessWidget {
                 itemBuilder: (context) => [
                   PullDownMenuItem.selectable(
                     title: 'Latest',
-                    selected: selectedIndex==0 ? true:false,
+                    selected: cubit.selectIndex==0 ? true:false,
                     onTap: () {
-                      selectedIndex=0;
+                      cubit.selectIndex=0;
                       cubit.emit(AppChangeFilter());
 
                     },
@@ -51,18 +49,18 @@ class AdsScreen extends StatelessWidget {
                   const PullDownMenuDivider(),
                   PullDownMenuItem.selectable(
                     title: 'Older',
-                    selected: selectedIndex==1 ? true:false,
+                    selected: cubit.selectIndex==1 ? true:false,
                     onTap: () {
-                      selectedIndex=1;
+                      cubit.selectIndex=1;
                       cubit.emit(AppChangeFilter());
                     },
                   ),
                   const PullDownMenuDivider(),
                   PullDownMenuItem.selectable(
                     title: 'Most likes',
-                    selected: selectedIndex==2 ? true:false,
+                    selected: cubit.selectIndex==2 ? true:false,
                     onTap: () {
-                      selectedIndex=2;
+                      cubit.selectIndex=2;
                       cubit.emit(AppChangeFilter());
                     },
                   ),
@@ -98,13 +96,13 @@ class AdsScreen extends StatelessWidget {
                 );
               } else {
                 List<AdModel> ads = snapshot.data!;
-                if(selectedIndex==1){
+                if(cubit.selectIndex==1){
                   ads.sort((a, b) => a.startDate!.compareTo(b.startDate!));
                 }
-                if(selectedIndex==2){
+                if(cubit.selectIndex==2){
                   ads.sort((a, b) => b.likes!.length.compareTo(a.likes!.length));
                 }
-                else if(selectedIndex==0) {
+                else if(cubit.selectIndex==0) {
                   ads.sort((a, b) => b.startDate!.compareTo(a.startDate!));
                 }
 
