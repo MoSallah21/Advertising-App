@@ -1,14 +1,12 @@
 import 'dart:async';
-
-import 'package:adphotos/models/ad/ad.dart';
-import 'package:adphotos/modules/ads/ads_screen.dart';
-import 'package:adphotos/modules/auth/login_screen.dart';
-import 'package:adphotos/modules/detalis/details_screen.dart';
-import 'package:adphotos/shared/bloc/app/appbloc.dart';
-import 'package:adphotos/shared/bloc/app/appstatus.dart';
-import 'package:adphotos/shared/componants/components.dart';
-import 'package:adphotos/shared/constants/constants.dart';
-import 'package:adphotos/shared/network/local/remot/cachehelper.dart';
+import 'package:adphotos/core/componants/components.dart';
+import 'package:adphotos/core/network/local/remot/cachehelper.dart';
+import 'package:adphotos/core/strings/constants.dart';
+import 'package:adphotos/features/Ads/data/models/ad.dart';
+import 'package:adphotos/features/Ads/presention/bloc/ad_bloc.dart';
+import 'package:adphotos/features/Ads/presention/pages/ads_screen.dart';
+import 'package:adphotos/features/Ads/presention/pages/details_screen.dart';
+import 'package:adphotos/features/auth/presention/pages/login_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,35 +18,18 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class HomeScreen extends StatelessWidget {
-   HomeScreen({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+   HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Future<void> Subscribe() async {
-      await FirebaseMessaging.instance.subscribeToTopic('/topics/app');
-    }
       return BlocConsumer<AppBloc, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
           var cubit=AppBloc.get(context);
-          Subscribe();
-          FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('New ad added',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
-                backgroundColor: Colors.blue,
-              ),
-            );
-          });
           FirebaseMessaging.onMessageOpenedApp.listen((event) {
             if(event.data!=null){
               if(CacheHelper.getData(key:'uId')!=null) {
-                navigateTo(context, HomeScreen());
+                navigateTo(context, HomePage());
               }
             }
           });
@@ -122,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                               await CacheHelper.removeData(key: 'uId');
                               await FirebaseAuth.instance.signOut();
                               uId = null;
-                              navigateAndFinish(context, LoginScreen());
+                              navigateAndFinish(context, LoginPage());
 
 
 
@@ -169,7 +150,7 @@ class HomeScreen extends StatelessWidget {
                         if (!snapshot.hasData) {
                           return Text('No data available');
                         }else {
-                          List<AdModel> ads = snapshot.data!.docs.map((doc) => AdModel.fromJson(doc.data())).toList();
+                          List<Ad> ads = snapshot.data!.docs.map((doc) => Ad.fromJson(doc.data())).toList();
                           List <String>imageUrls = snapshot.data!.docs.map((
                               doc) => doc['image']).cast<String>().toList();
                           return buildSlider(imageUrls,context,ads);
@@ -213,7 +194,7 @@ Widget buildGrid(AppBloc cubit,int index,BuildContext context,List titles,List i
         InkWell(
           onTap: (){
             cubit.index=index;
-            navigateTo(context, AdsScreen(index: cubit.index,catName: titles[index],));},
+            navigateTo(context, AdsPage(index: cubit.index,catName: titles[index],));},
           child: Container(
             height: MediaQuery.of(context).size.height/5.4,
             width: MediaQuery.of(context).size.width/2.150,
@@ -228,7 +209,7 @@ Widget buildGrid(AppBloc cubit,int index,BuildContext context,List titles,List i
         InkWell(
           onTap: (){
             cubit.index=index;
-            navigateTo(context, AdsScreen(index: cubit.index,catName: titles[index],));},
+            navigateTo(context, AdsPage(index: cubit.index,catName: titles[index],));},
           child: Container(
              width: MediaQuery.of(context).size.width/2.150,
               decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.only(bottomLeft:Radius.circular(15),bottomRight:Radius.circular(15) )),
@@ -236,14 +217,14 @@ Widget buildGrid(AppBloc cubit,int index,BuildContext context,List titles,List i
         ),
       ]);
 
-Widget buildSlider(List<String>imageUrls,BuildContext context,List<AdModel>ads,)=>
+Widget buildSlider(List<String>imageUrls,BuildContext context,List<Ad>ads,)=>
     CarouselSlider(
   items: imageUrls.asMap().entries.map((entry) {
     int index = entry.key;
     String url = entry.value;
     return GestureDetector(
       onTap: () {
-        navigateTo(context, DetailsScreen(ads[index]));
+        navigateTo(context, DetailsPage(ads[index]));
       },
       child: Image(
         fit: BoxFit.fitWidth,

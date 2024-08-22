@@ -1,19 +1,20 @@
+import 'package:adphotos/core/network/local/remot/cachehelper.dart';
+import 'package:adphotos/features/Ads/presention/bloc/ad_bloc.dart';
+import 'package:adphotos/features/auth/presention/pages/login_page.dart';
+import 'package:adphotos/features/data/repositories/auth_repository.dart';
+import 'package:adphotos/features/data/services/ad_service.dart';
+import 'package:adphotos/features/data/services/auth_service.dart';
 import 'package:adphotos/layout/home/home_screen.dart';
-import 'package:adphotos/modules/auth/login_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:adphotos/data/repositories/ad_repository.dart';
-import 'package:adphotos/data/repositories/auth_repository.dart';
-import 'package:adphotos/data/services/auth_service.dart';
-import 'package:adphotos/data/services/ad_service.dart';
-import 'package:adphotos/shared/constants/bloc_observer.dart';
-import 'package:adphotos/shared/constants/constants.dart';
 
-import 'shared/bloc/app/appbloc.dart';
-import 'shared/bloc/auth/authbloc.dart';
-import 'shared/network/local/remot/cachehelper.dart';
+import 'package:adphotos/core/bloc_observer.dart';
+
+import 'core/strings/constants.dart';
+import 'features/data/repositories/ad_repository.dart';
+import 'features/auth/presention/bloc/auth_bloc.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -29,18 +30,18 @@ void main() async {
   uId = CacheHelper.getData(key: 'uId');
 
   // Create instances of repositories and services
-  final adRepository = AdRepository();
+  final adRepository = AdddddRepository();
   final adService = AdService(adRepository);
 
-  final authRepository = AuthRepository();
+  final authRepository = AuthhhhhhhhRepository();
   final authService = AuthService(authRepository);
 
   Widget startWidget;
 
   if (uId != null) {
-    startWidget = HomeScreen();
+    startWidget = HomePage();
   } else {
-    startWidget = LoginScreen();
+    startWidget = LoginPage();
   }
 
   runApp(MyApp(
