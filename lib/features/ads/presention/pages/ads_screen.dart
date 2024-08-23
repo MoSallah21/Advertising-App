@@ -1,5 +1,4 @@
 import 'package:adphotos/core/componants/components.dart';
-import 'package:adphotos/features/ads/data/models/ad.dart';
 import 'package:adphotos/features/ads/domain/entities/ad.dart';
 import 'package:adphotos/features/ads/presention/bloc/ad_bloc.dart';
 import 'package:adphotos/features/ads/presention/pages/details_screen.dart';
@@ -72,10 +71,10 @@ final  IconData likeIcon=IconlyLight.heart;
           //   ),
           // ],
         ),
-        body: StreamBuilder<List<AdModel>>(
-          stream: bloc.add(GetAllAdsEvent(catName: catName));,
+        body: StreamBuilder<List<Ad>>(
+          stream: bloc.adsStream,
           builder: (BuildContext context,
-              AsyncSnapshot<List<AdModel>> snapshot) {
+              AsyncSnapshot<List<Ad>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(
@@ -93,22 +92,22 @@ final  IconData likeIcon=IconlyLight.heart;
                 child: Text('No data'),
               );
             } else {
-              List<AdModel> ads = snapshot.data!;
-              if(cubit.selectIndex==1){
-                ads.sort((a, b) => a.startDate!.compareTo(b.startDate!));
-              }
-              if(cubit.selectIndex==2){
-                ads.sort((a, b) => b.likes!.length.compareTo(a.likes!.length));
-              }
-              else if(cubit.selectIndex==0) {
-                ads.sort((a, b) => b.startDate!.compareTo(a.startDate!));
-              }
+              List<Ad> ads = snapshot.data!;
+              // if(cubit.selectIndex==1){
+              //   ads.sort((a, b) => a.startDate!.compareTo(b.startDate!));
+              // }
+              // if(cubit.selectIndex==2){
+              //   ads.sort((a, b) => b.likes!.length.compareTo(a.likes!.length));
+              // }
+              // else if(cubit.selectIndex==0) {
+              //   ads.sort((a, b) => b.startDate!.compareTo(a.startDate!));
+              // }
 
               return PageView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: ads.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return buildAds( cubit, ads[index], context, ads,likeIcon,likeColor, index,);
+                  return buildAds( bloc, ads[index], context, ads,likeIcon,likeColor, index,);
                 },
               );
             }

@@ -1,5 +1,4 @@
 import 'package:adphotos/features/Ads/presention/bloc/ad_bloc.dart';
-import 'package:adphotos/features/Ads/presention/bloc/ad_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
@@ -9,7 +8,7 @@ final String img;
 ViewImagePage(this.img);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc,AppState>(
+    return BlocBuilder<AdBloc,AdState>(
       builder: (context, state) {
         return Scaffold(
             body: Container(

@@ -1,19 +1,13 @@
 import 'package:adphotos/core/network/local/remot/cachehelper.dart';
 import 'package:adphotos/features/Ads/presention/bloc/ad_bloc.dart';
 import 'package:adphotos/features/auth/presention/pages/login_page.dart';
-import 'package:adphotos/features/data/repositories/auth_repository.dart';
-import 'package:adphotos/features/data/services/ad_service.dart';
-import 'package:adphotos/features/data/services/auth_service.dart';
 import 'package:adphotos/layout/home/home_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:adphotos/core/bloc_observer.dart';
-
 import 'core/strings/constants.dart';
-import 'features/data/repositories/ad_repository.dart';
 import 'features/auth/presention/bloc/auth_bloc.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -29,12 +23,6 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   uId = CacheHelper.getData(key: 'uId');
 
-  // Create instances of repositories and services
-  final adRepository = AdddddRepository();
-  final adService = AdService(adRepository);
-
-  final authRepository = AuthhhhhhhhRepository();
-  final authService = AuthService(authRepository);
 
   Widget startWidget;
 
@@ -46,21 +34,16 @@ void main() async {
 
   runApp(MyApp(
     startWidget: startWidget,
-    adService: adService,
-    authService: authService,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final Widget startWidget;
-  final AdService adService;
-  final AuthService authService;
+
 
   const MyApp({
     Key? key,
     required this.startWidget,
-    required this.adService,
-    required this.authService,
   }) : super(key: key);
 
   @override
@@ -68,10 +51,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AppBloc(adService),
+          create: (context) => AdBloc(getAllAds: null),
         ),
         BlocProvider(
-          create: (context) => AuthBloc(authService)..getUserData(),
+          create: (context) => AuthBloc(login: null, signup: null, forgetPassword: null, getUserData: null)..getUserData(uId),
         ),
       ],
       child: MaterialApp(

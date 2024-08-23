@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
+import 'package:open_share_pro/open.dart';
 
 class DetailsPage extends StatelessWidget {
 final  Ad adModel;
@@ -134,7 +135,7 @@ final  Ad adModel;
                         width: 4,
                       ),
                       TextButton(child: Text('${adModel.userNum}'),onPressed: (){
-                        cubit.launchWhatsApp(phone: '${adModel.userNum}',title: 'Hey i need to know the details');
+                        Open.whatsApp(whatsAppNumber: "+963991789422", text: "Hey i seen your the ad on AdApp");
                       },),
                     ],
                   ),

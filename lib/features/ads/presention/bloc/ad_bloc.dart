@@ -1,5 +1,6 @@
 import 'package:adphotos/core/errors/failures.dart';
 import 'package:adphotos/core/strings/failures.dart';
+import 'package:adphotos/features/ads/data/models/ad.dart';
 import 'package:adphotos/features/ads/domain/entities/ad.dart';
 import 'package:adphotos/features/ads/domain/usecases/get_all_ads.dart';
 import 'package:adphotos/features/auth/domain/entities/user.dart';
@@ -31,6 +32,13 @@ class AdBloc extends Bloc<AdEvent,AdState>{
       //   emit(AdsLikeSuccessState());
       // }
     });
+  }
+  Stream<List<Ad>> get adsStream async* {
+    await for (final state in stream) {
+      if (state is GetAllAdsSuccessState) {
+        yield state.ads;
+      }
+    }
   }
   }
   AdState _mapFailureOrPostsToState(Either<Failure,List<Ad>> either)  {

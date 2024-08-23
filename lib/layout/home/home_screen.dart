@@ -6,6 +6,7 @@ import 'package:adphotos/features/Ads/data/models/ad.dart';
 import 'package:adphotos/features/Ads/presention/bloc/ad_bloc.dart';
 import 'package:adphotos/features/Ads/presention/pages/ads_screen.dart';
 import 'package:adphotos/features/Ads/presention/pages/details_screen.dart';
+import 'package:adphotos/features/ads/domain/entities/ad.dart';
 import 'package:adphotos/features/auth/presention/pages/login_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -22,10 +23,10 @@ class HomePage extends StatelessWidget {
    HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-      return BlocConsumer<AppBloc, AppState>(
+      return BlocConsumer<AdBloc, AdState>(
         listener: (context, state) {},
         builder: (context, state) {
-          var cubit=AppBloc.get(context);
+          AdBloc bloc= BlocProvider.of<AdBloc>(context);
           FirebaseMessaging.onMessageOpenedApp.listen((event) {
             if(event.data!=null){
               if(CacheHelper.getData(key:'uId')!=null) {
@@ -56,7 +57,7 @@ class HomePage extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        '${cubit.userModel?.username}',
+                        '${bloc.currentUser?.username}',
                         style: TextStyle(color: Colors.black,fontSize: 24,fontStyle: FontStyle.italic),
                       ),
                     ),
@@ -68,7 +69,7 @@ class HomePage extends StatelessWidget {
                       Icon(Icons.public),
                     ],),
                     onTap: () {
-                      cubit.launchWhatsApp(phone: '+963941899671',title: 'Hello, I want to post a new ad.');
+                      bloc.launchWhatsApp(phone: '+963941899671',title: 'Hello, I want to post a new ad.');
                     },
                   ),
                   ListTile(
@@ -150,7 +151,7 @@ class HomePage extends StatelessWidget {
                         if (!snapshot.hasData) {
                           return Text('No data available');
                         }else {
-                          List<Ad> ads = snapshot.data!.docs.map((doc) => Ad.fromJson(doc.data())).toList();
+                          List<AdModel> ads = snapshot.data!.docs.map((doc) => AdModel.fromJson(doc.data())).toList();
                           List <String>imageUrls = snapshot.data!.docs.map((
                               doc) => doc['image']).cast<String>().toList();
                           return buildSlider(imageUrls,context,ads);
@@ -176,7 +177,7 @@ class HomePage extends StatelessWidget {
                 return Expanded(child: GridView.count(crossAxisCount: 2,
                   children: List.generate(
                       titles.length, (index) {
-                    return buildGrid(cubit, index, context,titles,image);
+                    return buildGrid(bloc, index, context,titles,image);
                   }),
                   shrinkWrap: false,
                   physics: BouncingScrollPhysics(),));
@@ -189,11 +190,11 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-Widget buildGrid(AppBloc cubit,int index,BuildContext context,List titles,List image)=>
+Widget buildGrid(AdBloc cubit,int index,BuildContext context,List titles,List image)=>
            Column(children: [
         InkWell(
           onTap: (){
-            cubit.index=index;
+            // cubit.index=index;
             navigateTo(context, AdsPage(index: cubit.index,catName: titles[index],));},
           child: Container(
             height: MediaQuery.of(context).size.height/5.4,
