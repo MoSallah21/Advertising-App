@@ -17,23 +17,27 @@ class AdRepositoryImpl implements AdRepository{
 
   AdRepositoryImpl({required this.remoteDatasource, required this.localDatasource, required this.networkInfo});
   @override
-  Future<Either<Failure, List<Ad>>> getAllAds(String catName)async {
+  @override
+  Future<Either<Failure, List<Ad>>> getAllAds(String catName) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteAds = await remoteDatasource.getAllAds(catName);
         localDatasource.cacheAds(remoteAds);
-        return Right(remoteAds);
+        final ads = remoteAds.map((adModel) => adModel.toEntity()).toList();
+        return Right(ads);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
       try {
         final localAds = await localDatasource.getCachedAds();
-        return Right(localAds);
+        final ads = localAds.map((adModel) => adModel.toEntity()).toList();
+        return Right(ads);
       } on EmptyCacheException {
         return Left(EmptyCacheFailure());
       }
-    }  }
+    }
+  }
 
   @override
   Future<Either<Failure, Unit>> autoDeleteAd(String adId, String endDate) async{

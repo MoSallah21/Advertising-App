@@ -12,13 +12,14 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 class AdRemoteDatasourceImpl implements AdRemoteDatasource{
   @override
 
-  Future<List<AdModel>> getAllAds(String catName) async{
+  Future<List<AdModel>> getAllAds(String catName) async {
     try {
       final querySnapshot = await _firestore
           .collection('ads')
           .where('catName', isEqualTo: catName)
           .orderBy('startDate', descending: true)
           .get();
+
       if (querySnapshot.docs.isNotEmpty) {
         return querySnapshot.docs
             .map((doc) => AdModel.fromJson(doc.data()))

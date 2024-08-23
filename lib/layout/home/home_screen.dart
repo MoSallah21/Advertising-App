@@ -151,7 +151,7 @@ class HomePage extends StatelessWidget {
                         if (!snapshot.hasData) {
                           return Text('No data available');
                         }else {
-                          List<AdModel> ads = snapshot.data!.docs.map((doc) => AdModel.fromJson(doc.data())).toList();
+                          List<Ad> ads = snapshot.data!.docs.map((doc) => Ad.fromJson(doc.data())).toList();
                           List <String>imageUrls = snapshot.data!.docs.map((
                               doc) => doc['image']).cast<String>().toList();
                           return buildSlider(imageUrls,context,ads);
@@ -161,28 +161,28 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8.0,top: 8.0,bottom: 8.0),
                   child: Text('Categories',style: TextStyle(color: Colors.black),),
                 ),
-              StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('categories').orderBy('categoryId', descending: false).snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-
-                if (!snapshot.hasData) {
-                  return Text('No data available');
-                }
-                List<DocumentSnapshot> documents = snapshot.data!.docs;
-                List titles = documents.map((doc) => doc['title']).toList();
-                List image = documents.map((doc) => doc['image']).toList();
-                return Expanded(child: GridView.count(crossAxisCount: 2,
-                  children: List.generate(
-                      titles.length, (index) {
-                    return buildGrid(bloc, index, context,titles,image);
-                  }),
-                  shrinkWrap: false,
-                  physics: BouncingScrollPhysics(),));
-              })
-              ],
+                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance
+                        .collection('ads')
+                        .where('vip', isEqualTo: true)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+                      if (!snapshot.hasData) {
+                        return Text('No data available');
+                      } else {
+                        List<Ad> ads = snapshot.data!.docs
+                            .map((doc) => AdModel.fromJson(doc.data()))
+                            .toList();
+                        List<String> imageUrls = snapshot.data!.docs
+                            .map((doc) => doc['image'] as String)
+                            .toList();
+                        return buildSlider(imageUrls, context, ads);
+                      }
+                    },
+                  )              ],
             ),
           ),
                     );

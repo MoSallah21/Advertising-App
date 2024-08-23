@@ -42,4 +42,19 @@ class AdModel extends Ad {
       'vip':vip
     };
   }
-}
+
+  toEntity() {
+    return Ad(
+      adId: adId,
+      userNum: userNum,
+      shopName: shopName,
+      startDate: startDate,
+      endDate: endDate,
+      catName: catName,
+      image: image,
+      vip: vip,
+    );
+
+  }
+  }
+
