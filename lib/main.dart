@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:adphotos/core/bloc_observer.dart';
 import 'core/strings/constants.dart';
 import 'features/auth/presention/bloc/auth_bloc.dart';
+import 'injection_container.dart'as di;
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -28,7 +29,8 @@ void main() async {
 
   if (uId != null) {
     startWidget = HomePage();
-  } else {
+  }
+  else {
     startWidget = LoginPage();
   }
 
@@ -39,8 +41,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final Widget startWidget;
-
-
   const MyApp({
     Key? key,
     required this.startWidget,
@@ -50,12 +50,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => AdBloc(getAllAds: null),
-        ),
-        BlocProvider(
-          create: (context) => AuthBloc(login: null, signup: null, forgetPassword: null, getUserData: null)..getUserData(uId),
-        ),
+        BlocProvider(create: (_)=>di.sl<AdBloc>()..add(GetAllAdsEvent(catName: ''))),
+        BlocProvider(create: (_)=>di.sl<AuthBloc>()..add(GetUserDataEvent(uId: uId))),
       ],
       child: MaterialApp(
         theme: ThemeData(

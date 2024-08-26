@@ -43,7 +43,7 @@ class AdModel extends Ad {
     };
   }
 
-  toEntity() {
+  Ad toEntity() {
     return Ad(
       adId: adId,
       userNum: userNum,

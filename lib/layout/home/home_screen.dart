@@ -16,11 +16,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:open_share_pro/open.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class HomePage extends StatelessWidget {
    HomePage({Key? key}) : super(key: key);
+   int index=0;
   @override
   Widget build(BuildContext context) {
       return BlocConsumer<AdBloc, AdState>(
@@ -69,7 +71,7 @@ class HomePage extends StatelessWidget {
                       Icon(Icons.public),
                     ],),
                     onTap: () {
-                      bloc.launchWhatsApp(phone: '+963941899671',title: 'Hello, I want to post a new ad.');
+                      Open.whatsApp(whatsAppNumber: "+963991789422", text: "Hey i need to share an Ad in your App");
                     },
                   ),
                   ListTile(
@@ -105,9 +107,6 @@ class HomePage extends StatelessWidget {
                               await FirebaseAuth.instance.signOut();
                               uId = null;
                               navigateAndFinish(context, LoginPage());
-
-
-
                             },
                             width: 120,
                             color: Colors.grey,
@@ -151,7 +150,7 @@ class HomePage extends StatelessWidget {
                         if (!snapshot.hasData) {
                           return Text('No data available');
                         }else {
-                          List<Ad> ads = snapshot.data!.docs.map((doc) => Ad.fromJson(doc.data())).toList();
+                          List<Ad> ads = snapshot.data!.docs.map((doc) => AdModel.fromJson(doc.data())).toList();
                           List <String>imageUrls = snapshot.data!.docs.map((
                               doc) => doc['image']).cast<String>().toList();
                           return buildSlider(imageUrls,context,ads);
@@ -195,7 +194,7 @@ Widget buildGrid(AdBloc cubit,int index,BuildContext context,List titles,List im
         InkWell(
           onTap: (){
             // cubit.index=index;
-            navigateTo(context, AdsPage(index: cubit.index,catName: titles[index],));},
+            navigateTo(context, AdsPage(index:index,catName: titles[index],));},
           child: Container(
             height: MediaQuery.of(context).size.height/5.4,
             width: MediaQuery.of(context).size.width/2.150,
@@ -209,8 +208,8 @@ Widget buildGrid(AdBloc cubit,int index,BuildContext context,List titles,List im
         ),
         InkWell(
           onTap: (){
-            cubit.index=index;
-            navigateTo(context, AdsPage(index: cubit.index,catName: titles[index],));},
+            index=index;
+            navigateTo(context, AdsPage(index: index,catName: titles[index],));},
           child: Container(
              width: MediaQuery.of(context).size.width/2.150,
               decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.only(bottomLeft:Radius.circular(15),bottomRight:Radius.circular(15) )),

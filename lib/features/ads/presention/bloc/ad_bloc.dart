@@ -13,8 +13,6 @@ part 'ad_status.dart';
 class AdBloc extends Bloc<AdEvent,AdState>{
   Users? currentUser;
   final GetAllAdsUseCase getAllAds;
-  // final UpdateLikesUseCase updateLikes;
-
   AdBloc({required this.getAllAds}):super(AdsInitState()) {
     on<AdEvent>((event,emit)async{
       if(event is GetAllAdsEvent){
