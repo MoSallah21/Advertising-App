@@ -18,6 +18,7 @@ abstract class AuthRemoteDatasource{
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 late final AuthLocalDatasource localDatasource;
+final String USER_COLLECTION='user';
 
 
 class AuthRemoteDatasourceImpl implements AuthRemoteDatasource{
@@ -30,7 +31,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource{
 
   @override
   Future<UserModel> getUserData()async {
-    DocumentSnapshot userDoc = await _firestore.collection('user').doc(uId).get();
+    DocumentSnapshot userDoc = await _firestore.collection(USER_COLLECTION).doc(uId).get();
 
     if (userDoc.exists) {
       return UserModel.fromJson(userDoc.data() as Map<String, dynamic>?);

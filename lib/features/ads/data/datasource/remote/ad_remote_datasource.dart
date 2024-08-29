@@ -9,14 +9,17 @@ abstract class AdRemoteDatasource{
   Future<Unit> autoDeleteAd(String adId, String endDate);
 }
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final String AD_COLLECTION='ads';
+final String CATEGORY_NAME='catName';
+
 class AdRemoteDatasourceImpl implements AdRemoteDatasource{
   @override
 
   Future<List<AdModel>> getAllAds(String catName) async {
     try {
       final querySnapshot = await _firestore
-          .collection('ads')
-          .where('catName', isEqualTo: catName)
+          .collection(AD_COLLECTION)
+          .where(CATEGORY_NAME, isEqualTo: catName)
           .orderBy('startDate', descending: true)
           .get();
 
@@ -41,7 +44,7 @@ class AdRemoteDatasourceImpl implements AdRemoteDatasource{
 
   @override
   Future<Unit> autoDeleteAd(String adId, String endDate)async {
-    final adsRef = _firestore.collection('ads');
+    final adsRef = _firestore.collection(AD_COLLECTION);
     final adDoc = adsRef.doc(adId);
     if (DateTime.now().isAfter(DateTime.parse(endDate))) {
       await adDoc.delete();

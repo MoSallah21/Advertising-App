@@ -22,7 +22,7 @@ void main() async {
   await firebaseMessagingBackgroundHandler;
 
   Bloc.observer = MyBlocObserver();
-  uId = CacheHelper.getData(key: 'uId');
+  uId = CacheHelper.getData(key: 'UID');
 
 
   Widget startWidget;
