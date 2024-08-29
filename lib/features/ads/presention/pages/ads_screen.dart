@@ -5,7 +5,6 @@ import 'package:adphotos/features/ads/presention/pages/details_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:iconly/iconly.dart';
 
 class AdsPage extends StatelessWidget {
@@ -22,9 +21,9 @@ final  IconData likeIcon=IconlyLight.heart;
       final AdBloc bloc = BlocProvider.of<AdBloc>(context);
 
       return Scaffold(
-        backgroundColor: HexColor('#5A5A5A'),
+      //  backgroundColor: HexColor('#5A5A5A'),
         appBar: AppBar(
-          backgroundColor: HexColor('#5A5A5A'),
+          //backgroundColor: HexColor('#5A5A5A'),
           elevation: 0,
           title: Text('Advertisements',style: TextStyle(color: Colors.white),),
           centerTitle: true,
@@ -78,7 +77,7 @@ final  IconData likeIcon=IconlyLight.heart;
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(
-                  color: HexColor('#69A88D'),
+                 // color: HexColor('#69A88D'),
                 ),
               );
 
@@ -153,7 +152,7 @@ final  IconData likeIcon=IconlyLight.heart;
             Expanded(
                   flex:1,
                   child: Container(
-                    color: HexColor('#5A5A5A'),
+                 //   color: HexColor('#5A5A5A'),
                     child:Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(

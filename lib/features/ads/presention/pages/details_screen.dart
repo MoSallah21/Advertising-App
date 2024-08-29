@@ -2,13 +2,10 @@ import 'package:adphotos/core/componants/components.dart';
 import 'package:adphotos/features/ads/domain/entities/ad.dart';
 import 'package:adphotos/features/ads/presention/pages/view.dart';
 import 'package:adphotos/features/ads/presention/bloc/ad_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
-import 'package:open_share_pro/open.dart';
 
 class DetailsPage extends StatelessWidget {
 final  Ad adModel;
@@ -22,11 +19,11 @@ final  Ad adModel;
         final AdBloc bloc = BlocProvider.of<AdBloc>(context);
         String dateString = adModel.startDate!;
         DateTime dateTime = DateTime.parse(dateString);
-        String formattedDate = intl.DateFormat('yyyy-MM-dd').format(dateTime);
+      //  String formattedDate = intl.DateFormat('yyyy-MM-dd').format(dateTime);
 
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: HexColor('#5A5A5A'),
+       //     backgroundColor: HexColor('#5A5A5A'),
             centerTitle: true,
             title: const Text(
               'Details',
@@ -135,7 +132,7 @@ final  Ad adModel;
                         width: 4,
                       ),
                       TextButton(child: Text('${adModel.userNum}'),onPressed: (){
-                        Open.whatsApp(whatsAppNumber: "+963991789422", text: "Hey i seen your the ad on AdApp");
+                        // Open.whatsApp(whatsAppNumber: "+963991789422", text: "Hey i seen your the ad on AdApp");
                       },),
                     ],
                   ),
@@ -152,7 +149,7 @@ final  Ad adModel;
                       SizedBox(
                         width: 4,
                       ),
-                      Text('$formattedDate',style: TextStyle(color: Colors.black),),
+                    //  Text('$formattedDate',style: TextStyle(color: Colors.black),),
                     ],
                   ),
 

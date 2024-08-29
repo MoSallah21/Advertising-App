@@ -9,15 +9,11 @@ import 'package:adphotos/features/Ads/presention/pages/details_screen.dart';
 import 'package:adphotos/features/ads/domain/entities/ad.dart';
 import 'package:adphotos/features/auth/presention/pages/login_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:open_share_pro/open.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class HomePage extends StatelessWidget {
@@ -38,7 +34,7 @@ class HomePage extends StatelessWidget {
           });
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: HexColor('#5A5A5A'),
+              // backgroundColor: HexColor('#5A5A5A'),
               centerTitle: true,
               actions: [
                 Icon(Icons.home_filled,color: Colors.white,),
@@ -71,7 +67,7 @@ class HomePage extends StatelessWidget {
                       Icon(Icons.public),
                     ],),
                     onTap: () {
-                      Open.whatsApp(whatsAppNumber: "+963991789422", text: "Hey i need to share an Ad in your App");
+                      //Open.whatsApp(whatsAppNumber: "+963991789422", text: "Hey i need to share an Ad in your App");
                     },
                   ),
                   ListTile(
@@ -81,7 +77,7 @@ class HomePage extends StatelessWidget {
                       Icon(Icons.restart_alt),
                     ],),
                     onTap: () {
-                      Restart.restartApp();
+                      // Restart.restartApp();
                     },
                   ),
                   ListTile(
@@ -153,7 +149,7 @@ class HomePage extends StatelessWidget {
                           List<Ad> ads = snapshot.data!.docs.map((doc) => AdModel.fromJson(doc.data())).toList();
                           List <String>imageUrls = snapshot.data!.docs.map((
                               doc) => doc['image']).cast<String>().toList();
-                          return buildSlider(imageUrls,context,ads);
+                          return Center();
                         }
                     }),
                 Padding(
@@ -178,7 +174,8 @@ class HomePage extends StatelessWidget {
                         List<String> imageUrls = snapshot.data!.docs
                             .map((doc) => doc['image'] as String)
                             .toList();
-                        return buildSlider(imageUrls, context, ads);
+                        // return buildSlider(imageUrls, context, ads);
+                        return Center();
                       }
                     },
                   )              ],
@@ -217,30 +214,30 @@ Widget buildGrid(AdBloc cubit,int index,BuildContext context,List titles,List im
         ),
       ]);
 
-Widget buildSlider(List<String>imageUrls,BuildContext context,List<Ad>ads,)=>
-    CarouselSlider(
-  items: imageUrls.asMap().entries.map((entry) {
-    int index = entry.key;
-    String url = entry.value;
-    return GestureDetector(
-      onTap: () {
-        navigateTo(context, DetailsPage(ads[index]));
-      },
-      child: Image(
-        fit: BoxFit.fitWidth,
-        width: double.infinity,
-        image: NetworkImage(url),),
-    );
-  }).toList(),
-  options: CarouselOptions(
-    autoPlay: true,
-    initialPage: 0,
-    reverse: false,
-    viewportFraction: 1,
-    scrollDirection: Axis.horizontal,
-    autoPlayCurve: Curves.fastOutSlowIn,
-    autoPlayInterval: Duration(seconds: 15),
-    autoPlayAnimationDuration: Duration(seconds: 2),
-    enlargeCenterPage: true,
-  ),
-);
+// Widget buildSlider(List<String>imageUrls,BuildContext context,List<Ad>ads,)=>
+//     CarouselSlider(
+//   items: imageUrls.asMap().entries.map((entry) {
+//     int index = entry.key;
+//     String url = entry.value;
+//     return GestureDetector(
+//       onTap: () {
+//         navigateTo(context, DetailsPage(ads[index]));
+//       },
+//       child: Image(
+//         fit: BoxFit.fitWidth,
+//         width: double.infinity,
+//         image: NetworkImage(url),),
+//     );
+//   }).toList(),
+//   // options: CarouselOptions(
+//   //   autoPlay: true,
+//   //   initialPage: 0,
+//   //   reverse: false,
+//   //   viewportFraction: 1,
+//   //   scrollDirection: Axis.horizontal,
+//   //   autoPlayCurve: Curves.fastOutSlowIn,
+//   //   autoPlayInterval: Duration(seconds: 15),
+//   //   autoPlayAnimationDuration: Duration(seconds: 2),
+//   //   enlargeCenterPage: true,
+//   // ),
+// );

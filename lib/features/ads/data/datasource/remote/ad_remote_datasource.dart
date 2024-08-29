@@ -1,5 +1,5 @@
 import 'package:adphotos/core/errors/exception.dart';
-import 'package:adphotos/features/ads//data/models/ad.dart';
+import 'package:adphotos/features/ads/data/models/ad.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 

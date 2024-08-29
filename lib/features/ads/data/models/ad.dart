@@ -1,4 +1,5 @@
 
+
 import 'package:adphotos/features/ads/domain/entities/ad.dart';
 
 class AdModel extends Ad {

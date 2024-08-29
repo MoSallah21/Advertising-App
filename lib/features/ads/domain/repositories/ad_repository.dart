@@ -1,5 +1,5 @@
 import 'package:adphotos/core/errors/failures.dart';
-import 'package:adphotos/features/ads//domain/entities/ad.dart';
+import 'package:adphotos/features/ads/domain/entities/ad.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class AdRepository {

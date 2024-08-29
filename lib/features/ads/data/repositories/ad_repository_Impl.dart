@@ -3,7 +3,6 @@ import 'package:adphotos/core/errors/failures.dart';
 import 'package:adphotos/core/network/local/remot/network_info.dart';
 import 'package:adphotos/features/ads/data/datasource/local/ad_local_datasource.dart';
 import 'package:adphotos/features/ads/data/datasource/remote/ad_remote_datasource.dart';
-import 'package:adphotos/features/ads/data/models/ad.dart';
 import 'package:adphotos/features/ads/domain/entities/ad.dart';
 import 'package:adphotos/features/ads/domain/repositories/ad_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -23,7 +22,7 @@ class AdRepositoryImpl implements AdRepository{
       try {
         final remoteAds = await remoteDatasource.getAllAds(catName);
         localDatasource.cacheAds(remoteAds);
-        final ads = remoteAds.map((adModel) => adModel.toEntity()).toList();
+        final ads = remoteAds.map((adModel) => adModel).toList();
         return Right(ads);
       } on ServerException {
         return Left(ServerFailure());
@@ -31,7 +30,7 @@ class AdRepositoryImpl implements AdRepository{
     } else {
       try {
         final localAds = await localDatasource.getCachedAds();
-        final ads = localAds.map((adModel) => adModel.toEntity()).toList();
+        final ads = localAds.map((adModel) => adModel).toList();
         return Right(ads);
       } on EmptyCacheException {
         return Left(EmptyCacheFailure());

@@ -6,7 +6,6 @@ import 'package:adphotos/features/auth/presention/bloc/auth_bloc.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:iconly/iconly.dart';
 
 
@@ -126,12 +125,13 @@ class SignupPage extends StatelessWidget {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: HexColor('#ffffff')),
-                              ),
-                              prefixIcon: Icon(IconlyLight.lock,
-                                  color: HexColor('#ffffff'), size: 20.0),
+                              // focusedBorder: OutlineInputBorder(
+                              //   borderSide:
+                              //   // BorderSide(color: HexColor('#ffffff')),
+                              // ),
+                              prefixIcon: Icon(IconlyLight.lock
+                                  // color: HexColor('#ffffff')
+                                  , size: 20.0),
                             ),
                             controller: confirmPasswordController,
                             validator: (value) {
@@ -149,7 +149,7 @@ class SignupPage extends StatelessWidget {
                             builder: (context) => Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
-                                color: HexColor('#f2f2eb'),
+                                // color: HexColor('#f2f2eb'),
                               ),
                               height: 50.0,
                               width: double.infinity,
@@ -175,7 +175,7 @@ class SignupPage extends StatelessWidget {
                             ),
                             fallback: (context) => Center(
                                 child: CircularProgressIndicator(
-                                  color: HexColor('#9cabb4'),
+                                  // color: HexColor('#9cabb4'),
                                 )),
                           ),
                         ],

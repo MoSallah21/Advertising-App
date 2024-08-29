@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class FormWidget extends StatelessWidget {
   final String?text;
@@ -38,12 +37,12 @@ class FormWidget extends StatelessWidget {
       obscureText: textShow??false,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: HexColor('#ffffff')),
+         // borderSide: BorderSide(color: HexColor('#ffffff')),
         ),
-        prefixIcon: Icon(prefix,color: HexColor('#ffffff'),size:20.0),
+      //  prefixIcon: Icon(prefix,color: HexColor('#ffffff'),size:20.0),
         labelText: label,
         prefixText: text,
-        labelStyle: TextStyle(color: HexColor('#ffffff')),
+      //  labelStyle: TextStyle(color: HexColor('#ffffff')),
         suffixIcon: IconButton(
             icon:Icon(suffix,color: Colors.white,)
             ,onPressed:suffixPressed),
