@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
+import 'package:intl/intl.dart';
+import 'package:open_share_plus/open.dart';
 
 class DetailsPage extends StatelessWidget {
 final  Ad adModel;
@@ -19,7 +21,7 @@ final  Ad adModel;
         final AdBloc bloc = BlocProvider.of<AdBloc>(context);
         String dateString = adModel.startDate!;
         DateTime dateTime = DateTime.parse(dateString);
-      //  String formattedDate = intl.DateFormat('yyyy-MM-dd').format(dateTime);
+       String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
 
         return Scaffold(
           appBar: AppBar(
@@ -132,7 +134,7 @@ final  Ad adModel;
                         width: 4,
                       ),
                       TextButton(child: Text('${adModel.userNum}'),onPressed: (){
-                        // Open.whatsApp(whatsAppNumber: "+963991789422", text: "Hey i seen your the ad on AdApp");
+                        Open.whatsApp(whatsAppNumber: "+963991789422", text: "Hey i seen your the ad on AdApp");
                       },),
                     ],
                   ),
@@ -149,7 +151,7 @@ final  Ad adModel;
                       SizedBox(
                         width: 4,
                       ),
-                    //  Text('$formattedDate',style: TextStyle(color: Colors.black),),
+                     Text('$formattedDate',style: TextStyle(color: Colors.black),),
                     ],
                   ),
 

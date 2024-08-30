@@ -4,6 +4,7 @@ import 'package:adphotos/features/auth/presention/widgets/form_widget.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:iconly/iconly.dart';
 
 
@@ -95,7 +96,7 @@ class ForgetPasswordPage extends StatelessWidget {
                           fallback: (BuildContext context) {
                             return Center(
                                 child: CircularProgressIndicator(
-                              // color: HexColor('#69A88D'),
+                              color: HexColor('#69A88D'),
                             ));
                           },
                         ),

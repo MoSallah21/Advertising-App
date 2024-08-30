@@ -5,6 +5,7 @@ import 'package:adphotos/features/ads/presention/pages/details_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:iconly/iconly.dart';
 
 class AdsPage extends StatelessWidget {
@@ -152,7 +153,7 @@ final  IconData likeIcon=IconlyLight.heart;
             Expanded(
                   flex:1,
                   child: Container(
-                 //   color: HexColor('#5A5A5A'),
+                   color: HexColor('#5A5A5A'),
                     child:Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
